@@ -5,11 +5,11 @@ This document describes how to use programme to transforme a XML query into a SQ
 
 ## Requirements
 
-Install the following :
+Install the following IDE:
 - [Visual Studio](https://visualstudio.microsoft.com/fr/)
 
 ## Steps for Getting Started
-- To get started, run the following command :
+- Clone the repository, run the following command :
 ```bash
 git clone https://github.com/Ilhem23/DSLQuery.git
 ```
@@ -28,14 +28,13 @@ DSLQuery.exe "pathToXMLTest\file.xml"
  ```bash
 DSLQuery.exe "C:\DSLQuery\xml_samples\Step1_FieldSelection.xml"
 ```
-or tap 
+or run the following command to get the help 
  ```bash
 DSLQuery.exe help
 ```
 ---
-title: "Technical Challenge Ségépar"
+
 author: [Aissaoui Ilhem]
-date: \today
 keywords: [DSL, Query, XML, c#, Domain Specific Language]
 category: Technical test
 ...
