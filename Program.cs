@@ -18,7 +18,7 @@ namespace ConsoleApp1
                     // show the help commande
                     if (xmlPath.Equals("help"))
                     {
-                        System.Console.WriteLine("Commande example:  ");
+                        System.Console.WriteLine("Command example:  ");
                         System.Console.WriteLine("DSLQuery.exe C:/app/sample.xml");
                     }
                     else
