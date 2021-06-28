@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+	<fields>
+		<field>name</field>
+	</fields>
+	<filters>
+		<field>population</field>
+		<value>10000</value>
+		<predicate>gt</predicate>
+	</filters>
+</query>

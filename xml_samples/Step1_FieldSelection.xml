@@ -1,0 +1,6 @@
+<query>
+ <fields>
+ <field>name</field>
+ <field>population</field>
+ </fields>
+</query>

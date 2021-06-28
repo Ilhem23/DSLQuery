@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+   <fields>
+      <field>name</field>
+   </fields>
+   <filters>
+      <field>distr_code</field>
+      <value>1</value>
+   </filters>
+</query>

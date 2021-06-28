@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+   <fields>
+      <field>name</field>
+	  <field>code</field>
+	  <field>population</field>
+	  <field>region_name</field>
+   </fields>
+   <filters>
+      <and>
+         <filter>
+            <field>population</field>
+            <value>10000</value>
+            <predicate>gt</predicate>
+         </filter>
+         <filter>
+            <or>
+               <filter>
+                  <field>name</field>
+                  <value>seine</value>
+                  <predicate>contains</predicate>
+               </filter>
+               <filter>
+                  <field>name</field>
+                  <value>loire</value>
+                  <predicate>contains</predicate>
+               </filter>
+            </or>
+         </filter>
+      </and>
+   </filters>
+</query>

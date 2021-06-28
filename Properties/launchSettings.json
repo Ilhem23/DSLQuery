@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DSLQuery": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\ilhem\\source\\repos\\DSLQuery\\xml_samples\\Step4_FilterCompounding.xml\""
+    }
+  }
+}

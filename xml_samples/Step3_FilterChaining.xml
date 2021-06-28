@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query>
+   <fields>
+      <field>name</field>
+   </fields>
+   <filters>
+      <and>
+         <filter>
+            <field>population</field>
+            <value>10000</value>
+            <predicate>gt</predicate>
+         </filter>
+         <filter>
+            <field>region_name</field>
+            <value>Hauts-de</value>
+            <predicate>contains</predicate>
+         </filter>
+      </and>
+   </filters>
+</query>
