@@ -32,6 +32,15 @@ or run the following command to get the help
  ```bash
 DSLQuery.exe help
 ```
+## :no_entry_sign: Note
+
+- you will find the sample XML files you provided in the test document in xml_samples folder : 
+![Screenshot](xmlExample.png)
+
+- I found some XML errors in The DSL Query example in all steps the fields node is not closed:
+![Screenshot](error.png)
+
+
 ---
 
 author: [Aissaoui Ilhem]
