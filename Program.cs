@@ -10,6 +10,7 @@ namespace ConsoleApp1
         {
             // upload the xml file
             string xmlPath = null;
+            bool verifError = false;
             if (args != null && args.Length == 1)
             {
                 xmlPath = args[0];
@@ -32,19 +33,24 @@ namespace ConsoleApp1
                         catch (Exception e)
                         {
                             // exception xml error
+                            verifError = true;
                             Console.WriteLine("XML Validation Error: " + e.Message);
                         }
                         try
                         {
-                            if (query != null)
+                            if (!verifError)
                             {
-                                // convert from query object to string
-                                Console.WriteLine(query.toSqlString());
+                                if (query != null)
+                                {
+                                    // convert from query object to string
+                                    Console.WriteLine(query.toSqlString());
+                                }
+                                else
+                                {
+                                    Console.WriteLine("SQL Validation Error: The query is empty");
+                                }
                             }
-                            else
-                            {
-                                Console.WriteLine("SQL Validation Error: The query is empty");
-                            }
+                          
                         }
                         catch (Exception e)
                         {
@@ -53,18 +59,21 @@ namespace ConsoleApp1
                     }
                 }
                 else
-                {
-                    System.Console.WriteLine("the path is empty or there are many path");
+                { 
+                     System.Console.WriteLine("Error: missing mandatory path argument");
                 }
             }
             else
             {
-                System.Console.WriteLine("Error: The input arguments must be one");
+                if (args.Length > 1)
+                {
+                    System.Console.WriteLine("Error: Only one argument is allowed, please enter a single path");
+                }
+                else
+                {
+                    System.Console.WriteLine("Error: missing mandatory path argument");
+                }                  
             }
-
-
-
-
         }
 
         static Query loadQuery(String xmlPath)

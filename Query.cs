@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-
+using System.Globalization;
+using System.Text.RegularExpressions;
 namespace ConsoleApp1
 {
     public class Query
@@ -119,9 +120,20 @@ namespace ConsoleApp1
             }
             return queryPart.ToString();
         }
+        public bool IsFloat(string value)
+        {
+            
+            float floatValue;
+            return float.TryParse(value, out floatValue);
+        }
         void validation()
         {
             var testTown = QueryConst.towns;
+            // check if field exist in schema
+                if (!testTown.ContainsKey(field))
+                {
+                    throw new Exception("Field '" + field + "' in WHERE Clause do not exist in 'Town' schema");
+                }
             // check if the type of field is integer or float and the value is int or float  when the predicate is '<', '>' or '='
             if (QueryConst.predicateEq.Equals(predicate) || QueryConst.predicateGt.Equals(predicate) || QueryConst.predicateLt.Equals(predicate))
             {
@@ -131,7 +143,7 @@ namespace ConsoleApp1
                     // exception when the filed type is not integer
                     if (!testTown[field].Equals(QueryConst.integer))
                     {
-                        throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with varchar type, the field must be a number. the type of '" + field + "' is '" + testTown[field] + "' ");
+                        throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with '" + field + "' " + testTown[field] + " field");
                     }
                     else
                     {
@@ -139,7 +151,7 @@ namespace ConsoleApp1
                         int n;
                         if (!int.TryParse(value, out n))
                         {
-                            throw new Exception("Invalide operation: The value of '" + field + "' must be '" + testTown[field] + "' with the predicate '" + convertPredicate(predicate) + "' ");
+                            throw new Exception("Invalide operation: comparison value should be " + testTown[field] + " when predicate is '" + convertPredicate(predicate) + "' (field '" + field + "')");
                         }
                     }
                 }
@@ -148,38 +160,53 @@ namespace ConsoleApp1
                     // exception when the filed type is not float
                     if (!testTown[field].Equals(QueryConst.flottant))
                     {
-                        throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with varchar type, the field must be a number. the type of '" + field + "' is '" + testTown[field] + "' ");
+                        throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with '" + field + "' " + testTown[field] + " field");
                     }
                     else
                     {
                         // exception when the value is not float
-                        float n;
-                        if (!Single.TryParse(value, out n))
+                        float number;
+                        var ci = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+                        ci.NumberFormat.NumberDecimalSeparator = ",";
+
+                        if (!Single.TryParse(value, NumberStyles.Float, ci, out number))
                         {
-                            throw new Exception("Invalide operation: The value of '" + field + "' must be a '" + testTown[field] + "' with the predicate '" + convertPredicate(predicate) + "' ");
+                            ci.NumberFormat.NumberDecimalSeparator = ".";
+                            if (!Single.TryParse(value, NumberStyles.Float, ci, out number))
+                            {
+                                throw new Exception("Invalide operation: comparison value should be " + testTown[field] + " when predicate is '" + convertPredicate(predicate) + "' (field '" + field + "')");
+                            }
                         }
 
                     }
                 }
             }
             // check if the type of field is varchar and the value is string when the predicate is LIKE
-            if (QueryConst.predicateContains.Equals(predicate))
+            else if (QueryConst.predicateContains.Equals(predicate))
             {
                 // exception when the filed type is not varchar
                 if (!testTown[field].Equals(QueryConst.varchar))
                 {
-                    throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with integer type, the field must be varchar. the type of '" + field + "' is '" + testTown[field] + "' ");
+                    throw new Exception("Invalide operation: the predicate '" + convertPredicate(predicate) + "' is not valide with '" + field + "' " + testTown[field] + " field");
                 }
                 else
                 {
                     // exception when the value is not varchar
+                    var ci = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+                    ci.NumberFormat.NumberDecimalSeparator = ",";
+                    var cl = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+                    cl.NumberFormat.NumberDecimalSeparator = ".";
                     int n;
                     float number;
-                    if (int.TryParse(value, out n) || Single.TryParse(value, out number))
+                    if (int.TryParse(value, out n) || Single.TryParse(value, NumberStyles.Float, ci, out number) || Single.TryParse(value, NumberStyles.Float, cl, out number))
                     {
-                        throw new Exception("Invalide operation: The value of '" + field + "' must be '" + testTown[field] + "' with the predicate '" + convertPredicate(predicate) + "' ");
+                        throw new Exception("Invalide operation: comparison value should be " + testTown[field] + " when predicate is '" + convertPredicate(predicate) + "' (field '" + field + "')");
                     }
                 }
+            }
+            else
+            {
+                throw new Exception("Invalide operation: Only the folowing predicate are authorized: eq,gt,lt,contains");
             }
         }
         internal string convertPredicate(String predicate)
