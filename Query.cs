@@ -120,12 +120,6 @@ namespace ConsoleApp1
             }
             return queryPart.ToString();
         }
-        public bool IsFloat(string value)
-        {
-            
-            float floatValue;
-            return float.TryParse(value, out floatValue);
-        }
         void validation()
         {
             var testTown = QueryConst.towns;
